@@ -1,30 +1,37 @@
 import ply.lex as lex
 
-reserved_words=(
-    'afficher',
+reserved_words_upper=(
     'si',
     'sinon',
-    'tantque',
-    'pour',
+    'pour'
+)
+
+reserved_words_lower=(
+    'afficher',
+    'de',
+    'a'
 )
 
 tokens = (
     "NUMBER",
     "STRING",
     "BOOL",
-    "PLUS_OP",
-    "MINUS_OP",
-    "TIME_OP",
-    "DIVIDE_OP",
     "SMALLER_THAN",
     "SMALLER_EQUAL_THAN",
     "GREATER_THAN",
     "GREATER_EQUAL_THAN",
+    "PLUS_OP",
+    "MINUS_OP",
+    "TIME_OP",
+    "DIVIDE_OP",
     "EQUAL",
     "ASSIGN",
     "TYPE",
     "IDENTIFIER",
-)+ tuple(map(lambda s:s.upper(),reserved_words))
+    "BY_STEP",
+    "WHILE"
+
+)+ tuple(map(lambda s:s.upper(),reserved_words_upper)) + tuple(map(lambda s:s.lower(),reserved_words_lower))
 
 literals = '();{}'
 
@@ -34,11 +41,26 @@ def t_NUMBER(t):
 
 def t_STRING(t):
     r'".*"'
-    
     return t
 
 def t_BOOL(t):
     r'(vrai)|(faux)'
+    return t
+
+def t_SMALLER_THAN(t):
+    r'plus\spetit\sque'
+    return t
+
+def t_SMALLER_EQUAL_THAN(t):
+    r'plus\spetit\sou\segal\sque'
+    return t
+
+def t_GREATER_THAN(t):
+    r'plus\sgrand\sque'
+    return t
+
+def t_GREATER_EQUAL_THAN(t):
+    r'plus\sgrand\sou\segal\sque'
     return t
 
 def t_PLUS_OP(t):
@@ -54,27 +76,11 @@ def t_TIME_OP(t):
     return t
 
 def t_DIVIDE_OP(t):
-    r'divise par'
-    return t
-
-def t_SMALLER_THAN(t):
-    r'plus petit que'
-    return t
-
-def t_SMALLER_EQUAL_THAN(t):
-    r'plus petit ou egal que'
-    return t
-
-def t_GREATER_THAN(t):
-    r'plus grand que'
-    return t
-
-def t_GREATER_EQUAL_THAN(t):
-    r'plus grand ou egal que'
+    r'divise\spar'
     return t
 
 def t_EQUAL(t):
-    r'est egal a'
+    r'est\segal\sa'
     return t
 
 def t_ASSIGN(t):
@@ -85,10 +91,20 @@ def t_TYPE(t):
     r'(entier)|(reel)|(texte)|(booleen)'
     return t
 
+def t_BY_STEP(t):
+    r'par\spas\sde'
+    return t
+
+def t_WHILE(t):
+    r'TANT\sQUE'
+    return t
+
 def t_IDENTIFIER(t):
     r'[a-zA-Z]+'
-    if t.value in reserved_words:
+    if t.value.lower() in reserved_words_upper:
        t.type = t.value.upper()
+    if t.value.lower() in reserved_words_lower:
+        t.type = t.value.lower()
     return t
        
 def t_newline(t):
@@ -104,7 +120,6 @@ def t_error(t):
 lex.lex()
 
 if __name__ == "__main__":
-    import sys
     import os
     test_dir = "./tests/lex/"
 
