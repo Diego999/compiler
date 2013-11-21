@@ -1,0 +1,4 @@
+POUR(aa de 1 a 10 par pas de 1)
+{
+    afficher aa;
+};
