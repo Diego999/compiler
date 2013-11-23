@@ -1,0 +1,18 @@
+aa booleen;
+aa egal vrai;
+aa egal faux;
+
+aa egal 1 plus petit que 2;
+aa egal 1 plus petit ou egal que 2;
+aa egal 1 plus grand que 2;
+aa egal 1 plus grand ou egal que 2;
+
+aa egal 2 plus petit que 1;
+aa egal 2 plus petit ou egal que 1;
+aa egal 2 plus grand que 1;
+aa egal 2 plus grand ou egal que 1;
+
+aa egal 2 plus petit que 2;
+aa egal 2 plus petit ou egal que 2;
+aa egal 2 plus grand que 2;
+aa egal 2 plus grand ou egal que 2;
