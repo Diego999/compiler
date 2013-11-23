@@ -18,7 +18,7 @@ default_values = {
     'entier': '0',
     'reel': '0.0',
     'texte': '',
-    'booleen': False,
+    'booleen': 'faux',
 }
 
 precedence = (
@@ -29,6 +29,7 @@ precedence = (
     ('right', 'UMINUS'),
 )
 
+
 def p_programme_statement(p):
     """programme : statement"""
     p[0] = AST.ProgramNode(p[1])
@@ -37,6 +38,7 @@ def p_programme_statement(p):
 def p_programme_recursive(p):
     """programme : statement programme"""
     p[0] = AST.ProgramNode([p[1]]+p[2].children)
+
 
 def p_statement(p):
     """statement : assignation ';'
@@ -66,12 +68,12 @@ def p_declaration(p):
 
 def p_declaration_assignation(p):
     """assignation : IDENTIFIER TYPE ASSIGN expression"""
-    p[0] = AST.AssignNode([AST.TokenNode(p[1])] + [AST.TokenNode(p[2]), AST.TokenNode(p[4])])
+    p[0] = AST.AssignNode([AST.TokenNode(p[1])] + [AST.TokenNode(p[2]), p[4]])
 
 
 def p_assignation(p):
     """assignation : IDENTIFIER ASSIGN expression"""
-    p[0] = AST.AssignNode([AST.TokenNode(p[1])] + [AST.TokenNode(p[3])])
+    p[0] = AST.AssignNode([AST.TokenNode(p[1])] + [p[3]])
 
 
 def p_expression_op(p):
@@ -106,8 +108,11 @@ def p_expression_paren(p):
 
 def p_for(p):
     """structure : POUR '(' IDENTIFIER de NUMBER a NUMBER BY_STEP NUMBER ')' '{' programme '}'"""
-    p[0] = AST.ForNode(p[1], [AST.AssignNode(p[3], p[5]),AST.OpNode('SMALLER_EQUAL_THAN', [p[3], p[7]]), p[13], AST.AssignNode(p[3], AST.OpNode('PLUS_OP', p[3],p[9]))])
-
+    p[0] = AST.ForNode([
+        AST.AssignNode([AST.TokenNode('entier')] + [AST.TokenNode(p[3]), AST.TokenNode(p[5])]),  # Initialization
+        AST.IfNode([AST.OpNode('SMALLER_EQUAL_THAN', [AST.TokenNode(p[3]), AST.TokenNode(p[7])]), p[12]]),  # Condition
+        AST.AssignNode([AST.TokenNode(p[3])] + [AST.OpNode('plus', [AST.TokenNode(p[3]), AST.TokenNode(p[9])])])  # Inc
+    ])
 
 def p_while(p):
     """structure : WHILE '(' expression ')' '{' programme '}' """
@@ -121,13 +126,13 @@ def p_minus(p):
 
 
 def p_error(p):
-    print ("Syntax error in line %d" % p.lineno)
+    print("Syntax error in line %d" % p.lineno)
     yacc.errok()
 
 yacc.yacc(outputdir='generated')
 
 
-def parse(program) :
+def parse(program):
     return yacc.parse(program)#, debug=1)
 
 
