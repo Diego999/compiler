@@ -147,5 +147,5 @@ if __name__ == "__main__":
         result = parse(prog)
         print(result)
         graph = result.makegraphicaltree()
-        name = file.split('.')[0] + '−ast.pdf'
+        name = 'pdf/' + file.split('.')[0] + '−ast.pdf'
         graph.write_pdf(name)
