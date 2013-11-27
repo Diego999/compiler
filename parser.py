@@ -110,7 +110,7 @@ def p_for(p):
     """structure : POUR '(' IDENTIFIER de NUMBER a NUMBER BY_STEP NUMBER ')' '{' programme '}'"""
     p[0] = AST.ForNode([
         AST.AssignNode([AST.TokenNode('entier')] + [AST.TokenNode(p[3]), AST.TokenNode(p[5])]),  # Initialization
-        AST.IfNode([AST.OpNode('SMALLER_EQUAL_THAN', [AST.TokenNode(p[3]), AST.TokenNode(p[7])]), p[12]]),  # Condition
+        AST.IfNode([AST.OpNode('plus petit ou egal que', [AST.TokenNode(p[3]), AST.TokenNode(p[7])]), p[12]]),  # Condition
         AST.AssignNode([AST.TokenNode(p[3])] + [AST.OpNode('plus', [AST.TokenNode(p[3]), AST.TokenNode(p[9])])])  # Inc
     ])
 
