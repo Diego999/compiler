@@ -1,0 +1,8 @@
+aa entier;
+aa egal 2;
+
+TANT QUE(aa plus petit ou egal que 5)
+{
+    afficher aa;
+    aa egal aab plus 1;
+};

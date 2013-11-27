@@ -1,0 +1,15 @@
+aa entier;
+aa entier egal 1;
+
+aa egal moins aa;
+
+aa egal 1 plus 2;
+aa egal 1 moins 2;
+aa egal 1 fois 2;
+aa egal 1 divise par 2;
+
+aa egal 1 plus moins 2;
+aa egal 1 moins moins 2;
+aa egal 1 fois moins 2;
+aa egal 1 divise par moins 2;
+

@@ -1,18 +1,6 @@
 import ply.yacc as yacc
 import AST
-from lex import tokens
-
-operations = {
-    'plus': lambda x, y: x+y,
-    'moins': lambda x, y: x-y,
-    'fois': lambda x, y: x*y,
-    'divise par': lambda x, y: x/y,
-    'plus petit que': lambda x, y: x<y,
-    'plus petit ou egal que': lambda x, y: x<=y,
-    'plus grand que': lambda x, y: x>y,
-    'plus grand ou egal que': lambda x, y: x>=y,
-    'est egal a': lambda x, y: x==y,
-}
+from lex_1 import tokens
 
 default_values = {
     'entier': '0',

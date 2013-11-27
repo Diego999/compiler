@@ -1,0 +1,8 @@
+SI (aa est egal a 2)
+{
+	afficher aa;
+}
+SINON
+{
+	afficher 0;
+};
