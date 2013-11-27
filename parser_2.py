@@ -143,4 +143,4 @@ if __name__ == "__main__":
             name = 'pdf/' + file.split('.')[0] + '−ast.pdf'
             graph.write_pdf(name)
         except:
-            print("\nCould not be generated",RuntimeWarning);
+            print("\nCould not be generated");
