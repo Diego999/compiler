@@ -126,8 +126,11 @@ def p_minus(p):
 
 
 def p_error(p):
-    print("Syntax error in line %d" % p.lineno)
-    yacc.errok()
+    if p:
+        print("Syntax error in line %d" % p.lineno)
+        yacc.errok()
+    else:
+        print("Sytax error: unexpected end of file!")
 
 yacc.yacc(outputdir='generated')
 
@@ -144,8 +147,12 @@ if __name__ == "__main__":
         prog = open(test_dir+file).read()
         print(file)
         print("----------------------")
-        result = parse(prog)
-        print(result)
-        graph = result.makegraphicaltree()
-        name = 'pdf/' + file.split('.')[0] + '−ast.pdf'
-        graph.write_pdf(name)
+        try:
+            
+            result = parse(prog)
+            print(result)
+            graph = result.makegraphicaltree()
+            name = 'pdf/' + file.split('.')[0] + '−ast.pdf'
+            graph.write_pdf(name)
+        except:
+            print("\nCould not be generated",RuntimeWarning);
