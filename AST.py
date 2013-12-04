@@ -93,7 +93,7 @@ class Node:
         
 class ProgramNode(Node):
     type = 'Program'
-        
+    
 class TokenNode(Node):
     type = 'token'
     def __init__(self, tok):
@@ -106,6 +106,7 @@ class TokenNode(Node):
 class OpNode(Node):
     def __init__(self, op, children):
         Node.__init__(self,children)
+        self.type = op
         self.op = op
         try:
             self.nbargs = len(children)
