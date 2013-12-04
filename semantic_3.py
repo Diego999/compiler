@@ -75,9 +75,9 @@ def execute(self):
     type1 = self.children[0].execute()
     type2 = self.children[1].execute()
     if type1 == TYPE_VAR:
-        type1 = return_type_var(type1)
+        type1 = return_type_var(self.children[0].tok)
     if type2 == TYPE_VAR:
-        type2 = return_type_var(type2)
+        type2 = return_type_var(self.children[1].tok)
     
     if type1 in OPERATION_TYPE[self.type] and type2 in OPERATION_TYPE[self.type]:
         if type1 == type2:
@@ -109,6 +109,7 @@ def execute(self):
             print("Cannot assign value to a constant")
     elif len(self.children) == 3:
         if self.children[0].execute()==TYPE_VAR:
+            
             if var_type.__contains__(self.children[0].tok):
                 left_exp_type = var_type[self.children[0].tok]
                 if left_exp_type != self.children[1].tok:
@@ -116,8 +117,9 @@ def execute(self):
                     sys.exit(-1)
                     return
             else:
-                var_type[self.children[0].tok] = self.children[1].tok
-                left_exp_type = self.children[1].tok
+                
+                var_type[self.children[1].tok] = self.children[0].tok
+                left_exp_type = var_type[self.children[1].tok]
             right_exp_type = self.children[2].execute()
     if left_exp_type != right_exp_type:
         print("Type does not match")
@@ -139,20 +141,22 @@ def execute(self):
 
 @addToClass(AST.PrintNode)
 def execute(self):
-    type1 = self.children[0].execute()
-    if type1 == TYPE_VAR:
-        return_type_var(type1)
+    if self.children[0].execute() == TYPE_VAR:
+        return_type_var(self.children[0].tok)
+    
 
 @addToClass(AST.ForNode)
 def execute(self):
-    print(self)
+    for c in self.children:
+        c.execute()
+    
     
     
 if __name__ == "__main__":
     import os
     test_dir = "./tests/semantic/"
     try:
-        prog = "SI(2 est egal a 3){ afficher 2;};afficher 3;"
+        prog = "SI(2 est egal a 3){ afficher aa;};afficher 3;"
         prog = "POUR(i de 1 a 10 par pas de 1){ afficher i;};"
         parse(prog).execute()
     except:
