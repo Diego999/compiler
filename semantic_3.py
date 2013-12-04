@@ -139,14 +139,13 @@ def execute(self):
 
 @addToClass(AST.PrintNode)
 def execute(self):
-    print("PRINTNODE")
     type1 = self.children[0].execute()
     if type1 == TYPE_VAR:
         return_type_var(type1)
 
 @addToClass(AST.ForNode)
 def execute(self):
-    print("POUR" ,self)
+    print(self)
     
     
 if __name__ == "__main__":
@@ -154,8 +153,8 @@ if __name__ == "__main__":
     test_dir = "./tests/semantic/"
     try:
         prog = "SI(2 est egal a 3){ afficher 2;};afficher 3;"
-        #prog = "POUR(i de 1 a 10 par pas de 1){ afficher i;};"
-        execute(parse(prog))
+        prog = "POUR(i de 1 a 10 par pas de 1){ afficher i;};"
+        parse(prog).execute()
     except:
         pass
     """for file in os.listdir(test_dir):
