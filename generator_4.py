@@ -3,8 +3,8 @@ import sys
 from AST import addToClass
 from parser_2 import parse
 from semantic_3 import BOOL_TRUE, BOOL_FALSE
-before = ['public class main', '{', 'public static void main(String[] args)', '{']
-after = ['}', '}']
+before = ['public class main', '{', '\tpublic static void main(String[] args)', '\t{']
+after = ['\t}', '}']
 
 var_equivalence = {
     'texte': 'String',
@@ -28,71 +28,71 @@ var_equivalence = {
 to_escape = ['\\', '\'', '"']
 
 @addToClass(AST.TokenNode)
-def execute(self):
+def execute(self, prefix=''):
     if self.tok[0] == '"' and self.tok[-1] == '"':
         out = self.tok[1:-1]
         for e in to_escape:
             out.replace(e, '\\' + e)
-        return '"' + out + '"'
+        return prefix + '"' + out + '"'
     elif self.tok == BOOL_TRUE or self.tok == BOOL_FALSE:
-        return var_equivalence[self.tok]
+        return prefix + self.tok
     elif self.tok.find(',') != -1:
-        return self.tok.replace(',', '.')
-    return self.tok
+        return prefix + self.tok.replace(',', '.')
+    return prefix + self.tok
 
 @addToClass(AST.OpNode)
-def execute(self):
+def execute(self, prefix=''):
     if len(self.children) == 1:
-        return '(' + var_equivalence[self.type] + '(' + self.children[0].execute() + ')' + ')'
+        return prefix + '(' + var_equivalence[self.type] + '(' + self.children[0].execute() + ')' + ')'
     elif len(self.children) == 2:
         left = self.children[0].execute()
         right = self.children[1].execute()
-        return left + var_equivalence[self.type] + right
+        return prefix + left + var_equivalence[self.type] + right
 
 
 @addToClass(AST.AssignNode)
-def execute(self):
+def execute(self, prefix=''):
     if len(self.children) == 2:
-        return self.children[0].tok + ' ' + var_equivalence[self.type] + ' ' + self.children[1].execute() + ';'
+        return prefix + self.children[0].tok + ' ' + var_equivalence[self.type] + ' ' + self.children[1].execute() + ';'
     elif len(self.children) == 3:
-        return var_equivalence[self.children[1].tok] + ' ' + self.children[0].tok + ' ' + var_equivalence[self.type] + ' ' + self.children[2].execute() + ';'
+        return prefix + var_equivalence[self.children[1].tok] + ' ' + self.children[0].tok + ' ' + var_equivalence[self.type] + ' ' + self.children[2].execute() + ';'
 
 
 @addToClass(AST.WhileNode)
-def execute(self):
-    return 'while (' + self.children[0].execute() + ')\n{\n' + self.children[1].execute() + '}\n'
+def execute(self, prefix=''):
+    return prefix + 'while (' + self.children[0].execute() + ')\n' + prefix + '{\n' + self.children[1].execute(prefix) + prefix + '}'
 
 
 @addToClass(AST.IfNode)
-def execute(self):
-    out = 'if (' + self.children[0].execute() + ')\n{\n' + self.children[1].execute() + '}\n'
+def execute(self, prefix=''):
+    out = 'if (' + self.children[0].execute('') + ')\n' + prefix + '{\n' + self.children[1].execute(prefix) + prefix + '}'
     if len(self.children) == 3:
-        out += 'else\n{\n' + self.children[2].execute() + '}\n'
-    return out
+        out += '\n' + prefix + 'else\n' + prefix + '{\n' + self.children[2].execute(prefix) + prefix + '}'
+    return prefix + out
 
 
 @addToClass(AST.ForNode)
-def execute(self):
-    return 'for(' + self.children[0].execute()[:-1] + ';' + self.children[1].children[0].execute() + '; ' + self.children[2].execute()[:-1] + ')\n{\n' + self.children[1].children[1].execute() + '}\n'
+def execute(self, prefix=''):
+    return prefix + 'for(' + self.children[0].execute('')[:-1] + ';' + self.children[1].children[0].execute('') + '; ' + self.children[2].execute('')[:-1] + ')\n' + prefix + '{\n' + self.children[1].children[1].execute(prefix) + prefix + '}'
 
 
 @addToClass(AST.ProgramNode)
-def execute(self):
+def execute(self, prefix=''):
     output = ''
     for c in self.children:
-        output += c.execute() + '\n'
+        output += c.execute(prefix + '\t') + '\n'
     return output
 
 @addToClass(AST.PrintNode)
-def execute(self):
-    return 'System.out.println(' + self.children[0].execute() + ');'
+def execute(self, prefix=''):
+    return prefix + 'System.out.println(' + self.children[0].execute() + ');'
 
 
 def generate(result):
     out = ''
     for b in before:
         out += b + '\n'
-    out += result.execute()
+    out += result.execute('\t')
     for a in after:
         out += a + '\n'
     return out
