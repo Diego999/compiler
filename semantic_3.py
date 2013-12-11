@@ -63,7 +63,6 @@ def execute(self):
     
 @addToClass(AST.OpNode)
 def execute(self):
-
     if len(self.children) == 1:
         type1 = self.children[0].execute()
         if type1 == TYPE_VAR:
@@ -112,11 +111,8 @@ def execute(self):
     elif len(self.children) == 3:
         if self.children[0].execute() == TYPE_VAR:
             if var_type.__contains__(self.children[0].tok):
-                left_exp_type = var_type[self.children[0].tok]
-                if left_exp_type != self.children[1].tok:
-                    print("Type does not match")
-                    sys.exit(-1)
-                    return
+                print("Duplicate variable")
+                sys.exit(-1)
             else:
                 var_type[self.children[0].tok] = self.children[1].tok
                 left_exp_type = var_type[self.children[0].tok]
@@ -140,11 +136,6 @@ def execute(self):
         c.execute()
 
 @addToClass(AST.PrintNode)
-def execute(self):
-    if self.children[0].execute() == TYPE_VAR:
-        return_type_var(self.children[0].tok)
-    
-
 @addToClass(AST.ForNode)
 def execute(self):
     for c in self.children:

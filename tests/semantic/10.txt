@@ -1,0 +1,3 @@
+aa texte egal "bonjour ";
+bb texte egal "Diego";
+afficher aa plus bb;
