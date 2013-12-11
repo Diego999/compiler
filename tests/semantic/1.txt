@@ -1,3 +1,4 @@
+aa entier egal 2;
 SI (aa est egal a 2)
 {
 	afficher aa;

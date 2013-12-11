@@ -16,17 +16,17 @@ TYPE_VAR = "variable"
 TYPE_INVALID = "invalide"
 
 OPERATION_TYPE = {
-    'plus' : [TYPE_TEXT,TYPE_INT,TYPE_DOUBLE],
-    'moins' : [TYPE_INT,TYPE_DOUBLE],
-    'divise par' : [TYPE_INT,TYPE_DOUBLE],
-    'fois' : [TYPE_INT,TYPE_DOUBLE],
-    'plus petit que' : [TYPE_INT,TYPE_DOUBLE],
-    'plus grand que' : [TYPE_INT,TYPE_DOUBLE],
-    'plus petit ou egal que' : [TYPE_INT,TYPE_DOUBLE],
-    'plus grand ou egal que' : [TYPE_INT,TYPE_DOUBLE],
-    'est egal a' : [TYPE_INT,TYPE_DOUBLE,TYPE_TEXT,TYPE_BOOL]
+    'plus': [TYPE_TEXT, TYPE_INT, TYPE_DOUBLE],
+    'moins': [TYPE_INT, TYPE_DOUBLE],
+    'divise par': [TYPE_INT, TYPE_DOUBLE],
+    'fois': [TYPE_INT, TYPE_DOUBLE],
+    'plus petit que': [TYPE_INT, TYPE_DOUBLE],
+    'plus grand que': [TYPE_INT, TYPE_DOUBLE],
+    'plus petit ou egal que': [TYPE_INT, TYPE_DOUBLE],
+    'plus grand ou egal que': [TYPE_INT, TYPE_DOUBLE],
+    'est egal a': [TYPE_INT, TYPE_DOUBLE, TYPE_TEXT, TYPE_BOOL]
     }
-BOOL_OPERATIONS = ['plus petit que','plus grand que','plus petit ou egal que','plus grand ou egal que','est egal a']
+BOOL_OPERATIONS = ['plus petit que', 'plus grand que', 'plus petit ou egal que', 'plus grand ou egal que', 'est egal a']
 
 def return_type_var(var_name):
     if var_type.__contains__(var_name):
@@ -43,7 +43,7 @@ def execute(self):
         return TYPE_BOOL
     elif self.tok.find(',') != -1:
         try:
-            self.tok = self.tok.replace(',','.')
+            self.tok = self.tok.replace(',', '.')
             float(self.tok)
             return TYPE_DOUBLE
         except:
@@ -55,7 +55,7 @@ def execute(self):
             return TYPE_INT
         except:
             regex = re.compile(r'[a-zA-Z]+')
-            if regex.match(self.tok) != None:
+            if regex.match(self.tok) is not None:
                 return TYPE_VAR
             else:
                 print("Illegal variable name")
@@ -66,8 +66,10 @@ def execute(self):
 
     if len(self.children) == 1:
         type1 = self.children[0].execute()
+        if type1 == TYPE_VAR:
+            type1 = return_type_var(self.children[0].tok)
         if type1 == TYPE_INT or type1 == TYPE_DOUBLE:
-            return type1;
+            return type1
         else:
             print("Unary operator not compatible with this type")
             sys.exit(-1)   
@@ -102,14 +104,13 @@ def execute(self):
     left_exp_type = None
     right_exp_type = None
     if len(self.children) == 2:
-        if self.children[0].execute()==TYPE_VAR:
+        if self.children[0].execute() == TYPE_VAR:
             left_exp_type = return_type_var(self.children[0].tok)
             right_exp_type = self.children[1].execute()
         else:
             print("Cannot assign value to a constant")
     elif len(self.children) == 3:
-        if self.children[0].execute()==TYPE_VAR:
-            
+        if self.children[0].execute() == TYPE_VAR:
             if var_type.__contains__(self.children[0].tok):
                 left_exp_type = var_type[self.children[0].tok]
                 if left_exp_type != self.children[1].tok:
@@ -117,9 +118,8 @@ def execute(self):
                     sys.exit(-1)
                     return
             else:
-                
-                var_type[self.children[1].tok] = self.children[0].tok
-                left_exp_type = var_type[self.children[1].tok]
+                var_type[self.children[0].tok] = self.children[1].tok
+                left_exp_type = var_type[self.children[0].tok]
             right_exp_type = self.children[2].execute()
     if left_exp_type != right_exp_type:
         print("Type does not match")
@@ -150,20 +150,14 @@ def execute(self):
     for c in self.children:
         c.execute()
     
-    
-    
+
 if __name__ == "__main__":
     import os
     test_dir = "./tests/semantic/"
-    try:
-        prog = "SI(2 est egal a 3){ afficher aa;};afficher 3;"
-        prog = "POUR(i de 1 a 10 par pas de 1){ afficher i;};"
-        parse(prog).execute()
-    except:
-        pass
-    """for file in os.listdir(test_dir):
+    for file in os.listdir(test_dir):
         prog = open(test_dir+file).read()
         print(file)
         print("----------------------")
         result = parse(prog)
-        execute(result)"""
+        result.execute()
+        var_type = {}
