@@ -4,8 +4,8 @@ from lex_1 import tokens, generate_lex
 
 default_values = {
     'entier': '0',
-    'reel': '0.0',
-    'texte': '',
+    'reel': '0,0',
+    'texte': '""',
     'booleen': 'faux',
 }
 
