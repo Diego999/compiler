@@ -117,7 +117,7 @@ def p_minus(p):
 
 def p_error(p):
     if p:
-        error_parser.write("Syntax error in line %d\n" % p.lineno)
+        error_parser.write("Syntax error in line %d, position %d \n" % (p.lineno, p.lexpos))
         yacc.errok()
     else:
         error_parser.write("Sytax error: unexpected end of file\n")
@@ -127,7 +127,10 @@ yacc.yacc(outputdir='generated')
 
 def generate_parser(program):
     generate_lex(program)
-    return yacc.parse(program)
+    yacc.lineno = yacc.lexpos = 0
+    out = yacc.parse(program, tracking=True)
+    error_parser.write('\n')
+    return out
 
 
 if __name__ == "__main__":

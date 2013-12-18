@@ -138,6 +138,7 @@ def generate_semantic(prog):
     global var_type
     var_type = {}
     generate_parser(prog).execute()
+    error_output.write('\n')
 
 if __name__ == "__main__":
     import os
