@@ -1,7 +1,8 @@
 import AST
 from AST import addToClass
-from parser_2 import parse
+from parser_2 import generate_parser
 from semantic_3 import BOOL_TRUE, BOOL_FALSE
+
 before = ['public class main', '{', '\tpublic static void main(String[] args)', '\t{']
 after = ['\t}', '}']
 
@@ -87,21 +88,20 @@ def generate(self, prefix=''):
     return prefix + 'System.out.println(' + self.children[0].generate() + ');'
 
 
-def generate_output(result):
-    out = ''
-    for b in before:
-        out += b + '\n'
-    out += result.generate('\t')
-    for a in after:
-        out += a + '\n'
-    return out
+def generate_output(result, title):
+    with open('outputs/' + title+'.java', 'w') as f:
+        out = ''
+        for b in before:
+            out += b + '\n'
+        out += result.generate('\t')
+        for a in after:
+            out += a + '\n'
+        f.write(out)
 
 if __name__ == "__main__":
     import os
     test_dir = "./tests/generator/"
     for file in os.listdir(test_dir):
         prog = open(test_dir+file).read()
-        print(file)
-        print("----------------------")
-        result = parse(prog)
-        print(generate_output(result))
+        result = generate_parser(prog)
+        generate_output(result, file.split('.')[0])

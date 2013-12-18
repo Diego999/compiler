@@ -1,6 +1,6 @@
 import ply.yacc as yacc
 import AST
-from lex_1 import tokens
+from lex_1 import tokens, generate_lex
 
 default_values = {
     'entier': '0',
@@ -16,6 +16,8 @@ precedence = (
     ('left', 'DIVIDE_OP'),
     ('right', 'UMINUS'),
 )
+
+error_parser = open('outputs/' + 'error_parser.log', 'w')
 
 
 def p_programme_statement(p):
@@ -115,16 +117,17 @@ def p_minus(p):
 
 def p_error(p):
     if p:
-        print("Syntax error in line %d" % p.lineno)
+        error_parser.write("Syntax error in line %d\n" % p.lineno)
         yacc.errok()
     else:
-        print("Sytax error: unexpected end of file!")
+        error_parser.write("Sytax error: unexpected end of file\n")
 
 yacc.yacc(outputdir='generated')
 
 
-def parse(program):
-    return yacc.parse(program)#, debug=1)
+def generate_parser(program):
+    generate_lex(program)
+    return yacc.parse(program)
 
 
 if __name__ == "__main__":
@@ -133,14 +136,10 @@ if __name__ == "__main__":
 
     for file in os.listdir(test_dir):
         prog = open(test_dir+file).read()
-        print(file)
-        print("----------------------")
         try:
-            
-            result = parse(prog)
-            print(result)
+            result = generate_parser(prog)
             graph = result.makegraphicaltree()
             name = 'pdf/' + file.split('.')[0] + '−ast.pdf'
             graph.write_pdf(name)
-        except:
-            print("\nCould not be generated");
+        except Exception as e:
+            print(e)

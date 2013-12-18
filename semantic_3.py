@@ -1,8 +1,7 @@
 import AST
 import re
-import sys
 from AST import addToClass
-from parser_2 import parse
+from parser_2 import generate_parser
 
 var_type = {}
 
@@ -28,12 +27,13 @@ OPERATION_TYPE = {
     }
 BOOL_OPERATIONS = ['plus petit que', 'plus grand que', 'plus petit ou egal que', 'plus grand ou egal que', 'est egal a']
 
+error_output = open('outputs/' + 'error_semantic.log', 'w')
+
 def return_type_var(var_name):
     if var_type.__contains__(var_name):
         return var_type[var_name]
     else:
-        print("Undefined variable")
-        sys.exit(-1)
+        error_output.write("Undefined variable\n")
 
 @addToClass(AST.TokenNode)
 def execute(self):
@@ -47,8 +47,7 @@ def execute(self):
             float(self.tok)
             return TYPE_DOUBLE
         except:
-            print("Undefined type")
-            sys.exit(-1)
+            error_output.write("Undefined type\n")
     else:
         try:
             int(self.tok)
@@ -58,8 +57,7 @@ def execute(self):
             if regex.match(self.tok) is not None:
                 return TYPE_VAR
             else:
-                print("Illegal variable name")
-                sys.exit(-1)
+                error_output.write("Illegal variable name\n")
     
 @addToClass(AST.OpNode)
 def execute(self):
@@ -70,8 +68,7 @@ def execute(self):
         if type1 == TYPE_INT or type1 == TYPE_DOUBLE:
             return type1
         else:
-            print("Unary operator not compatible with this type")
-            sys.exit(-1)   
+            error_output.write("Unary operator not compatible with this type\n")
 
     type1 = self.children[0].execute()
     type2 = self.children[1].execute()
@@ -92,11 +89,9 @@ def execute(self):
             else:
                 return TYPE_DOUBLE
         else:
-            print("Variables are not compatible")
-            sys.exit(-1)  
+            error_output.write("Variables are not compatible\n")
     else:
-        print("Incompatible type with operator")
-        sys.exit(-1)
+        error_output.write("Incompatible type with operator\n")
 
 @addToClass(AST.AssignNode)
 def execute(self):
@@ -107,26 +102,23 @@ def execute(self):
             left_exp_type = return_type_var(self.children[0].tok)
             right_exp_type = self.children[1].execute()
         else:
-            print("Cannot assign value to a constant")
+            error_output.write("Cannot assign value to a constant\n")
     elif len(self.children) == 3:
         if self.children[0].execute() == TYPE_VAR:
             if var_type.__contains__(self.children[0].tok):
-                print("Duplicate variable")
-                sys.exit(-1)
+                error_output.write("Duplicate variable\n")
             else:
                 var_type[self.children[0].tok] = self.children[1].tok
                 left_exp_type = var_type[self.children[0].tok]
             right_exp_type = self.children[2].execute()
     if left_exp_type != right_exp_type:
-        print("Type does not match")
-        sys.exit(-1)
+        error_output.write("Type does not match\n")
 
 @addToClass(AST.WhileNode)
 @addToClass(AST.IfNode)
 def execute(self):
     if self.children[0].execute() != TYPE_BOOL:
-        print("Condition expression has to be bool")
-        sys.exit(-1)
+        error_output.write("Condition expression has to be bool\n")
     for c in self.children:
         c.execute()
     
@@ -140,15 +132,17 @@ def execute(self):
 def execute(self):
     for c in self.children:
         c.execute()
-    
+
+
+def generate_semantic(prog):
+    global var_type
+    var_type = {}
+    generate_parser(prog).execute()
 
 if __name__ == "__main__":
     import os
     test_dir = "./tests/semantic/"
     for file in os.listdir(test_dir):
         prog = open(test_dir+file).read()
-        print(file)
-        print("----------------------")
-        result = parse(prog)
-        result.execute()
-        var_type = {}
+        error_output.write('=============='+file+'==============\n')
+        generate_semantic(prog)
