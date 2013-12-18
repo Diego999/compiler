@@ -1,0 +1,19 @@
+aa entier;
+bb reel;
+cc texte;
+dd booleen;
+ee entier egal 239123;
+ff reel egal 1,345;
+gg texte egal "23907899#401&+%"|´@#°"\n32789/(&)¦\t''"""";
+hh booleen egal faux;
+ii booleen egal vrai;
+
+afficher aa;
+afficher bb;
+afficher cc;
+afficher dd;
+afficher ee;
+afficher ff;
+afficher gg;
+afficher hh;
+afficher ii;

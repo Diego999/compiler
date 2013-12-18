@@ -1,0 +1,4 @@
+bb int;
+cc boolean;
+dd string;
+ee real;
