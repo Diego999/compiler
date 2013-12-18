@@ -18,7 +18,7 @@ precedence = (
 )
 
 error_parser = open('outputs/' + 'error_parser.log', 'w')
-
+error_number = 0
 
 def p_programme_statement(p):
     """programme : statement"""
@@ -116,6 +116,8 @@ def p_minus(p):
 
 
 def p_error(p):
+    global error_number
+    error_number += 1
     if p:
         error_parser.write("Syntax error in line %d\n" % p.lineno)
         yacc.errok()
@@ -125,9 +127,12 @@ def p_error(p):
 yacc.yacc(outputdir='generated')
 
 
-def generate_parser(program):
-    generate_lex(program)
-    return yacc.parse(program)
+def generate_parser(program, title):
+    error_parser.write('=============='+title+'==============\n')
+    global error_number
+    error_number = 0
+    return error_number, yacc.parse(program)
+
 
 
 if __name__ == "__main__":

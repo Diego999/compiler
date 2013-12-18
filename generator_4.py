@@ -97,6 +97,7 @@ def generate_output(result, title):
         for a in after:
             out += a + '\n'
         f.write(out)
+    return 0
 
 if __name__ == "__main__":
     import os
