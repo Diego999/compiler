@@ -8,7 +8,13 @@ if __name__ == "__main__":
     test_dir = "./tests/compiling/"
     for file in os.listdir(test_dir):
         prog = open(test_dir+file).read()
-        generate_lex(prog)
-        result = generate_parser(prog)
-        generate_semantic(prog)
+        if generate_lex(prog, file.split(".")[0]) != 0:
+            continue
+        (error_number, result) = generate_parser(prog, file.split(".")[0])
+        if error_number != 0:
+            continue
+
+        if generate_semantic(result, file.split(".")[0]) != 0:
+            continue
+
         generate_output(result, file.split('.')[0])

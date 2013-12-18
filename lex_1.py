@@ -141,7 +141,8 @@ def t_error(t):
     t.lexer.skip(1)
 
 
-def generate_lex(prog):
+def generate_lex(prog, title):
+    error_output.write('=============='+title+'==============\n')
     global error_number
     error_number = 0
     lex.lex()
@@ -160,4 +161,4 @@ if __name__ == "__main__":
     test_dir = "./tests/lex/"
     for file in os.listdir(test_dir):
         prog = open(test_dir+file).read()
-        generate_lex(prog)
+        generate_lex(prog, file.split(".")[0])

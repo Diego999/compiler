@@ -28,12 +28,15 @@ OPERATION_TYPE = {
 BOOL_OPERATIONS = ['plus petit que', 'plus grand que', 'plus petit ou egal que', 'plus grand ou egal que', 'est egal a']
 
 error_output = open('outputs/' + 'error_semantic.log', 'w')
+error_number = 0
 
 def return_type_var(var_name):
     if var_type.__contains__(var_name):
         return var_type[var_name]
     else:
         error_output.write("Undefined variable\n")
+        global error_number
+        error_number += 1
 
 @addToClass(AST.TokenNode)
 def execute(self):
@@ -48,6 +51,8 @@ def execute(self):
             return TYPE_DOUBLE
         except:
             error_output.write("Undefined type\n")
+            global error_number
+            error_number += 1
     else:
         try:
             int(self.tok)
@@ -58,6 +63,8 @@ def execute(self):
                 return TYPE_VAR
             else:
                 error_output.write("Illegal variable name\n")
+                global error_number
+                error_number += 1
     
 @addToClass(AST.OpNode)
 def execute(self):
@@ -69,6 +76,8 @@ def execute(self):
             return type1
         else:
             error_output.write("Unary operator not compatible with this type\n")
+            global error_number
+            error_number += 1
 
     type1 = self.children[0].execute()
     type2 = self.children[1].execute()
@@ -90,8 +99,12 @@ def execute(self):
                 return TYPE_DOUBLE
         else:
             error_output.write("Variables are not compatible\n")
+            global error_number
+            error_number += 1
     else:
         error_output.write("Incompatible type with operator\n")
+        global error_number
+        error_number += 1
 
 @addToClass(AST.AssignNode)
 def execute(self):
@@ -103,22 +116,30 @@ def execute(self):
             right_exp_type = self.children[1].execute()
         else:
             error_output.write("Cannot assign value to a constant\n")
+            global error_number
+            error_number += 1
     elif len(self.children) == 3:
         if self.children[0].execute() == TYPE_VAR:
             if var_type.__contains__(self.children[0].tok):
                 error_output.write("Duplicate variable\n")
+                global error_number
+                error_number += 1
             else:
                 var_type[self.children[0].tok] = self.children[1].tok
                 left_exp_type = var_type[self.children[0].tok]
             right_exp_type = self.children[2].execute()
     if left_exp_type != right_exp_type:
         error_output.write("Type does not match\n")
+        global error_number
+        error_number += 1
 
 @addToClass(AST.WhileNode)
 @addToClass(AST.IfNode)
 def execute(self):
     if self.children[0].execute() != TYPE_BOOL:
         error_output.write("Condition expression has to be bool\n")
+        global error_number
+        error_number += 1
     for c in self.children:
         c.execute()
     
@@ -134,11 +155,15 @@ def execute(self):
         c.execute()
 
 
-def generate_semantic(prog):
+def generate_semantic(generated_prog, title):
+    error_output.write('=============='+title+'==============\n')
     global var_type
     var_type = {}
-    generate_parser(prog).execute()
+    global error_number
+    error_number = 0
+    generated_prog.execute()
     error_output.write('\n')
+    return error_number
 
 if __name__ == "__main__":
     import os
@@ -146,4 +171,4 @@ if __name__ == "__main__":
     for file in os.listdir(test_dir):
         prog = open(test_dir+file).read()
         error_output.write('=============='+file+'==============\n')
-        generate_semantic(prog)
+        generate_semantic(generate_parser(prog))
