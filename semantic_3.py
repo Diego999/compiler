@@ -113,11 +113,13 @@ def execute(self):
     if len(self.children) == 2:
         if self.children[0].execute() == TYPE_VAR:
             left_exp_type = return_type_var(self.children[0].tok)
-            right_exp_type = self.children[1].execute()
         else:
             error_output.write("Cannot assign value to a constant\n")
             global error_number
             error_number += 1
+        right_exp_type = self.children[1].execute()
+        if right_exp_type == TYPE_VAR:
+            right_exp_type = return_type_var(self.children[1].tok)
     elif len(self.children) == 3:
         if self.children[0].execute() == TYPE_VAR:
             if var_type.__contains__(self.children[0].tok):
@@ -127,7 +129,9 @@ def execute(self):
             else:
                 var_type[self.children[0].tok] = self.children[1].tok
                 left_exp_type = var_type[self.children[0].tok]
-            right_exp_type = self.children[2].execute()
+        right_exp_type = self.children[2].execute()
+        if right_exp_type == TYPE_VAR:
+            right_exp_type = return_type_var(self.children[2].tok)
     if left_exp_type != right_exp_type:
         error_output.write("Type does not match\n")
         global error_number
