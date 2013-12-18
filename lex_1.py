@@ -36,7 +36,7 @@ tokens = (
 literals = '();{}'
 
 error_output = open('outputs/' + 'error_lex.log', 'w')
-
+error_number = 0
 def t_NUMBER(t):
     r'\d+(,\d*)*'
     return t
@@ -117,13 +117,21 @@ t_ignore = '\t '
 
 def t_error(t):
     error_output.write("Illegal character '%s'\n" % t.value[0])
+    global error_number
+    error_number += 1
     t.lexer.skip(1)
 
 lex.lex()
 
 
 def generate_lex(prog):
+    global error_number
+    error_number = 0
     lex.input(prog)
+    while 1:
+            if not lex.token():
+                break
+    return error_number
 
 
 if __name__ == "__main__":
@@ -133,6 +141,3 @@ if __name__ == "__main__":
     for file in os.listdir(test_dir):
         prog = open(test_dir+file).read()
         generate_lex(prog)
-        while 1:
-            if not lex.token():
-                break
