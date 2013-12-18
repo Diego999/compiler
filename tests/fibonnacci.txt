@@ -1,0 +1,10 @@
+aa entier egal 0;
+b entier egal 1;
+c entier egal 50;
+POUR(i de 0 a c par pas de 1)
+{
+	out entier egal aa plus b;
+	afficher out;
+	aa egal b;
+	b egal out;
+};

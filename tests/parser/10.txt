@@ -1,5 +1,0 @@
-aa entier egal 1;
-aa egal moins moins moins aa;
-
-bb entier egal moins 1;
-bb egal plus plus plus bb;

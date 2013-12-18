@@ -1,4 +1,0 @@
-aa entier;
-b reel;
-c texte;
-d booleen;

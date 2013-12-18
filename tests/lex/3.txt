@@ -1,9 +1,0 @@
-aa booleen egal 1 plus petit que 2;
-aa booleen egal 1 plus petit ou egal que 2;
-aa booleen egal 1 plus grand que 2;
-aa booleen egal 1 plus grand ou egal que 2;
-aa booleen egal 1 est egal a 2;
-POUR(I de 0 a 10 par pas de 2){aa egal 2;};
-SI(aa est egal a 10){a egal 2;}
-SINON{aa egal 3;};
-TANT QUE (aa est egal a 3){aa egal 2;};

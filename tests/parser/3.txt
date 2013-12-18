@@ -1,9 +1,0 @@
-aa entier;
-aa egal 2;
-
-SI (aa est egal a 2)
-{
-	aa egal 3;
-};
-
-afficher aa;

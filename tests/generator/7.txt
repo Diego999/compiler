@@ -1,9 +1,0 @@
-aa entier;
-aa egal 1;
-
-aa egal 1 fois 2 plus 4;
-aa egal 2 plus 1 fois 4;
-aa egal 1 fois 2 divise par 4;
-aa egal 1 plus moins 2 moins 2;
-
-aa egal 1 plus 3 fois 4 moins 5 divise par moins 5;

@@ -1,9 +1,0 @@
-aa entier egal 2;
-b reel egal 2,43;
-c texte egal "\abcdefg/aka 68sd7"sadsa.;"";
-d booleen egal vrai;
-aa egal 340343
-b egal 2,4234
-c egal "///ajni  409sdlk "
-d egal faux
-aa divise par b
