@@ -123,7 +123,7 @@ def p_error(p):
         error_parser.write("Syntax error in line %d, position %d \n" % (p.lineno, p.lexpos))
         yacc.errok()
     else:
-        error_parser.write("Syntax error: unexpected end of file\n")
+        error_parser.write("Sytax error: unexpected end of file\n")
 
 yacc.yacc(outputdir='generated')
 
