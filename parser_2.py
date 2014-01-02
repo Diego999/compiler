@@ -139,6 +139,9 @@ def generate_parser(program, title):
     error_parser.write('\n')
     error_parser.write(error_number.__str__())
     error_parser.write(" errors !!\n")
+    if out:
+        graph = out.makegraphicaltree()
+        graph.write_pdf('pdf/' + title.split(".")[0] + '−ast.pdf')
     return error_number, out
 
 
