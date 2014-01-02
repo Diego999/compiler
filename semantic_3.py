@@ -28,6 +28,7 @@ OPERATION_TYPE = {
 BOOL_OPERATIONS = ['plus petit que', 'plus grand que', 'plus petit ou egal que', 'plus grand ou egal que', 'est egal a']
 
 error_output = open('outputs/' + 'error_semantic.log', 'w')
+global error_number
 error_number = 0
 
 def return_type_var(var_name):
@@ -63,7 +64,7 @@ def execute(self):
                 return TYPE_VAR
             else:
                 error_output.write("Illegal variable name\n")
-                global error_number
+                #global error_number
                 error_number += 1
     
 @addToClass(AST.OpNode)
@@ -99,11 +100,11 @@ def execute(self):
                 return TYPE_DOUBLE
         else:
             error_output.write("Variables are not compatible\n")
-            global error_number
+            #global error_number
             error_number += 1
     else:
         error_output.write("Incompatible type with operator\n")
-        global error_number
+        #global error_number
         error_number += 1
 
 @addToClass(AST.AssignNode)
@@ -124,7 +125,7 @@ def execute(self):
         if self.children[0].execute() == TYPE_VAR:
             if var_type.__contains__(self.children[0].tok):
                 error_output.write("Duplicate variable\n")
-                global error_number
+                #global error_number
                 error_number += 1
             else:
                 var_type[self.children[0].tok] = self.children[1].tok
@@ -134,7 +135,7 @@ def execute(self):
             right_exp_type = return_type_var(self.children[2].tok)
     if left_exp_type != right_exp_type:
         error_output.write("Type does not match\n")
-        global error_number
+        #global error_number
         error_number += 1
 
 @addToClass(AST.WhileNode)
@@ -160,19 +161,29 @@ def execute(self):
 
 
 def generate_semantic(generated_prog, title):
-    error_output.write('=============='+title+'==============\n')
+    error_output.write('==============' + title + '==============\n')
     global var_type
     var_type = {}
+
     global error_number
     error_number = 0
     generated_prog.execute()
     error_output.write('\n')
+    error_output.write(error_number.__str__())
+    error_output.write(" errors !!\n")
     return error_number
 
 if __name__ == "__main__":
     import os
-    test_dir = "./tests/semantic/"
+    test_dir = "./tests/"
     for file in os.listdir(test_dir):
         prog = open(test_dir+file).read()
-        error_output.write('=============='+file+'==============\n')
-        generate_semantic(generate_parser(prog))
+        try:
+            semantic_err_num = 0
+            (parse_err_num, parse_result) = generate_parser(prog, file)
+
+            if parse_result:
+                semantic_err_num = generate_semantic(parse_result, file)
+        except Exception as e:
+
+            print(e)

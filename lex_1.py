@@ -152,13 +152,16 @@ def generate_lex(prog, title):
                 break
     lex.lex()
     error_output.write('\n')
+    error_output.write(error_number.__str__())
+    error_output.write(" errors !!\n")
     return error_number
 
+lex.lex()
 
 if __name__ == "__main__":
     import os
 
-    test_dir = "./tests/lex/"
+    test_dir = "./tests/"
     for file in os.listdir(test_dir):
         prog = open(test_dir+file).read()
         generate_lex(prog, file.split(".")[0])

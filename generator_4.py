@@ -101,8 +101,9 @@ def generate_output(result, title):
 
 if __name__ == "__main__":
     import os
-    test_dir = "./tests/generator/"
+    test_dir = "./tests/"
     for file in os.listdir(test_dir):
         prog = open(test_dir+file).read()
-        result = generate_parser(prog)
-        generate_output(result, file.split('.')[0])
+        (err_num, result) = generate_parser(prog, file)
+        if result:
+             generate_output(result, file.split('.')[0])

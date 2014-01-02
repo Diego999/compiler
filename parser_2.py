@@ -133,21 +133,26 @@ def generate_parser(program, title):
     global error_number
     error_number = 0
     yacc.lineno = yacc.lexpos = 0
+
+
     out = yacc.parse(program, tracking=True)
     error_parser.write('\n')
+    error_parser.write(error_number.__str__())
+    error_parser.write(" errors !!\n")
     return error_number, out
 
 
 if __name__ == "__main__":
     import os
-    test_dir = "./tests/parser/"
+    test_dir = "./tests/"
 
     for file in os.listdir(test_dir):
         prog = open(test_dir+file).read()
         try:
-            result = generate_parser(prog)
-            graph = result.makegraphicaltree()
-            name = 'pdf/' + file.split('.')[0] + '−ast.pdf'
-            graph.write_pdf(name)
+            name = file.split('.')[0]
+            (err_num, result) = generate_parser(prog, file)
+            if result:
+                graph = result.makegraphicaltree()
+                graph.write_pdf('pdf/' + name + '−ast.pdf')
         except Exception as e:
             print(e)
