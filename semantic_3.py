@@ -79,6 +79,7 @@ def execute(self):
             error_output.write("Unary operator not compatible with this type\n")
             global error_number
             error_number += 1
+            return type1
 
     type1 = self.children[0].execute()
     type2 = self.children[1].execute()
