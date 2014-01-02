@@ -1,0 +1,14 @@
+aa entier egal 1;
+bb entier egal 2;
+cc reel egal 1,23;
+dd reel egal 10,09;
+ee booleen egal vrai;
+ff booleen egal faux;
+gg texte egal "bonjour";
+hh texte egal "maison";
+
+afficher(aa moins ee);
+afficher(aa moins gg);
+afficher(ee moins gg);
+afficher(gg moins aa);
+afficher(moins gg);

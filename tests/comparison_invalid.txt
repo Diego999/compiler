@@ -1,0 +1,37 @@
+aa entier egal 1;
+bb entier egal 2;
+cc reel egal 1,23;
+dd reel egal 10,09;
+ee booleen egal vrai;
+ff booleen egal faux;
+gg texte egal "bonjour";
+hh texte egal "maison";
+
+afficher aa plus petit que ee;
+afficher aa plus grand que ee;
+afficher aa plus petit ou egal que ee;
+afficher aa plus grand ou egal que ee;
+afficher aa est egal a ee;
+
+
+afficher aa plus petit que gg;
+afficher aa plus grand que gg;
+afficher aa plus petit ou egal que gg;
+afficher aa plus grand ou egal que gg;
+afficher aa est egal a gg;
+
+
+afficher ee plus petit que ff;
+afficher ee plus grand que ff;
+afficher ee plus petit ou egal que ff;
+afficher ee plus grand ou egal que ff;
+
+afficher gg plus petit que hh;
+afficher gg plus grand que hh;
+afficher gg plus petit ou egal que hh;
+afficher gg plus grand ou egal que hh;
+
+
+
+
+

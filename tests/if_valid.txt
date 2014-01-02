@@ -1,0 +1,55 @@
+aa entier egal 1;
+bb entier egal 2;
+cc reel egal 1,23;
+dd reel egal 10,09;
+ee booleen egal vrai;
+ff booleen egal faux;
+gg texte egal "bonjour";
+hh texte egal "maison";
+
+SI(aa plus petit que 2)
+{
+    afficher "oui";
+};
+
+SI(aa plus petit ou egal que 2)
+{
+    afficher "oui";
+};
+
+SI(aa plus grand ou egal que moins 2)
+{
+    afficher "oui";
+    SI(vrai)
+    {
+        afficher "inutile";
+        SI(faux)
+        {
+            afficher "JAMAIS";
+        }
+        SINON
+        {
+            afficher "TOUJOURS";
+        };
+    };
+};
+
+SI(aa plus grand que moins moins moins 2)
+{
+    afficher "oui";
+};
+
+SI(aa est egal a moins aa)
+{
+    afficher "hello";
+}
+SINON
+{
+    afficher "Test";
+};
+
+test booleen egal 1 plus petit que 2;
+SI(test est egal a vrai)
+{
+    afficher test;
+};

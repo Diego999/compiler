@@ -1,0 +1,29 @@
+aa entier egal 1;
+bb entier egal 2;
+cc reel egal 1,23;
+dd reel egal 10,09;
+ee booleen egal vrai;
+ff booleen egal faux;
+gg texte egal "bonjour";
+hh texte egal "maison";
+
+POUR(i de 10 a 20 par pas de 2)
+{
+    afficher i;
+};
+
+POUR(j de 10 a 20 par pas de 1)
+{
+    POUR(k de 20 a 10 par pas de moins 1)
+    {
+        afficher j;
+        afficher k;
+        afficher "\n";
+    };
+};
+
+POUR(l de 0 a bb par pas de 1)
+{
+    afficher l;
+};
+

@@ -1,0 +1,46 @@
+aa entier egal 1;
+bb entier egal 23;
+
+afficher(aa plus bb);
+afficher(aa moins bb);
+afficher(aa fois bb);
+afficher(aa divise par bb);
+
+afficher(aa plus moins bb);
+afficher(aa moins moins bb);
+afficher(aa fois moins bb);
+afficher(aa divise par moins bb);
+
+afficher(moins aa plus bb);
+afficher(moins aa moins bb);
+afficher(moins aa fois bb);
+afficher(moins aa divise par bb);
+
+afficher(moins aa plus moins bb);
+afficher(moins aa moins moins bb);
+afficher(moins aa fois moins bb);
+afficher(moins aa divise par moins bb);
+
+afficher(moins aa plus moins moins bb);
+afficher(moins aa moins moins moins bb);
+afficher(moins aa fois moins moins bb);
+afficher(moins aa divise par moins moins bb);
+
+cc reel egal 1,0;
+dd reel egal 1,23;
+
+afficher(cc plus dd);
+afficher(cc moins dd);
+afficher(cc fois dd);
+afficher(cc divise par dd);
+afficher(aa moins cc);
+
+afficher(cc plus moins dd);
+afficher(cc moins moins dd);
+afficher(cc fois moins dd);
+afficher(cc divise par moins dd);
+
+ee texte egal "Bonjour";
+ff texte egal ", ça va?";
+
+afficher(ee plus ff);

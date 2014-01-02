@@ -1,0 +1,25 @@
+aa entier egal 1;
+bb entier egal 2;
+cc reel egal 1,23;
+dd reel egal 10,09;
+ee booleen egal vrai;
+ff booleen egal faux;
+gg texte egal "bonjour";
+hh texte egal "maison";
+
+TANT QUE aa plus petit que 10)
+{
+    afficher aa;
+    aa egal aa plus 1;
+};
+
+TANT QUE(aa plus grand que moins 11)
+{
+    xx entier egal 12;
+    TANT QUE(xx plus grand que 0)
+    {
+        xx egal xx moins 1;
+    };
+    aa egal aa moins 1;
+
+}

@@ -1,0 +1,30 @@
+aa entier egal 1;
+bb entier egal 2;
+cc reel egal 1,23;
+dd reel egal 10,09;
+ee booleen egal vrai;
+ff booleen egal faux;
+gg texte egal "bonjour";
+hh texte egal "maison";
+
+SI(aa)
+{
+    afficher "H3llo";
+};
+
+
+SI(cc)
+{
+    afficher "H3llo";
+};
+
+
+SI(ee)
+{
+    afficher "H3llo";
+};
+
+SI(gg)
+{
+    afficher "H3llo";
+};
