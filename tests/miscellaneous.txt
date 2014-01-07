@@ -1,0 +1,42 @@
+aa entier egal 5;
+
+POUR(i de 0 a 100 par pas de 3)
+{
+	SI(i divise par 3 plus petit ou egal que 5)
+	{
+		afficher 1;
+	}
+	SINON
+	{
+		SI(i divise par 3 plus grand que 10)
+		{
+			SI(i divise par 5 est egal a 6)
+			{
+				afficher 1 plus 2;
+				p texte egal "Bonne année ";
+				pp texte egal "2014 !";
+				afficher p plus pp;
+			}
+			SINON
+			{
+				afficher "aaa"+"bbb";
+			};
+		}
+		SINON
+		{
+			ii entier egal 0;
+			TANT QUE (ii plus petit que aa)
+			{
+				POUR(iii de 0 a 10 par pas de 1)
+				{
+					TANT QUE(ii moins 5 plus petit ou egal que 0)
+					{
+						afficher ii;
+						ii egal ii plus 2;
+					};
+				};
+				ii egal ii plus 1;
+			};
+		};
+	};
+};

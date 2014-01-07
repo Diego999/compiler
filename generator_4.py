@@ -3,7 +3,7 @@ from AST import addToClass
 from parser_2 import generate_parser
 from semantic_3 import BOOL_TRUE, BOOL_FALSE
 
-before = ['public class main', '{', '\tpublic static void main(String[] args)', '\t{']
+before = ['public class Main', '{', '\tpublic static void main(String[] args)', '\t{']
 after = ['\t}', '}']
 
 var_equivalence = {

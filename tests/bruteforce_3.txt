@@ -1,0 +1,11 @@
+ii entier egal 10;
+POUR(i de 1 a ii par pas de 1)
+{
+	POUR(j de 1 a ii par pas de 1)
+	{
+		POUR(k de 1 a ii par pas de 1)
+		{
+			afficher i fois j fois k;
+		};
+	};
+};
