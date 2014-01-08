@@ -154,8 +154,5 @@ if __name__ == "__main__":
         try:
             name = file.split('.')[0]
             (err_num, result) = generate_parser(prog, file)
-            if result:
-                graph = result.makegraphicaltree()
-                graph.write_pdf('pdf/' + name + '−ast.pdf')
         except Exception as e:
             print(e)

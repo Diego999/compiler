@@ -186,5 +186,4 @@ if __name__ == "__main__":
             if parse_result:
                 semantic_err_num = generate_semantic(parse_result, file)
         except Exception as e:
-
             print(e)
