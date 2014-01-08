@@ -176,7 +176,7 @@ def generate_semantic(generated_prog, title):
 
 if __name__ == "__main__":
     import os
-    test_dir = "./tests/"
+    test_dir = "./to_compile/"
     for file in os.listdir(test_dir):
         prog = open(test_dir+file).read()
         try:
